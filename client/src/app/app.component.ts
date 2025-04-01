@@ -2,13 +2,8 @@ import { Component, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: ` <div>
-    <h2>Clipboard Info: {{ clipboardInfo() }}</h2>
-    <button (click)="changeNameOnClipboard()">Tamper with Name</button>
-    <button (click)="changeAgeOnClipboard()">Tamper with Age</button>
-  </div>`,
-
-  styles: `h1 { font-size: 3em; } `,
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   testName = signal('John Doe');

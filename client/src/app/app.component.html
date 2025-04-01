@@ -1,0 +1,13 @@
+<main>
+  <h1 class="color-me">Color me</h1>
+
+  This will end up being the main wrapper for our entire application. It does not need to be very
+  complex. Maybe just needs to provide some css-resets. I think the main plan is to be able to use
+  Angular routing for this application in order to switch in between services the app provides
+
+  <div>
+    <h2>Clipboard Info: {{ clipboardInfo() }}</h2>
+    <button (click)="changeNameOnClipboard()">Tamper with Name</button>
+    <button (click)="changeAgeOnClipboard()">Tamper with Age</button>
+  </div>
+</main>
