@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SugarWorks - Device Details</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="mobile-nav-overlay" id="mobile-nav">
+      <div class="mobile-nav-header">
+        <h2>SugarWorks</h2>
+        <button class="close-mobile-nav" id="close-mobile-nav">&times;</button>
+      </div>
+      <ul class="mobile-nav-list">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Devices</a></li>
+        <li><a href="#">Users</a></li>
+        <li><a href="#">Reports</a></li>
+      </ul>
+    </div>
+
+    <nav class="side-nav desktop-only">
+      <h2>SugarWorks</h2>
+      <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Devices</a></li>
+        <li><a href="#">Users</a></li>
+        <li><a href="#">Reports</a></li>
+      </ul>
+    </nav>
+
+    <div class="main-content">
+      <header class="sticky-header">
+        <button class="open-mobile-nav mobile-only" id="open-mobile-nav">&#9776;</button>
+        <div>
+          <h1>Dell XPS 15</h1>
+          <p>Asset ID: SW-00123</p>
+        </div>
+      </header>
+
+      <main>
+        <section class="specs">
+          <h2>Specifications</h2>
+
+          <div class="spec-card">
+            <h3>Processor</h3>
+            <p>Intel Core i7, 12th Gen</p>
+            <button class="read-more" data-title="Processor" data-content="Intel Core i7-12700H, 14 cores (6 performance + 8 efficiency), base clock 2.3GHz, boost up to 4.7GHz. Integrated Iris Xe Graphics.">Read more</button>
+          </div>
+
+          <div class="spec-card">
+            <h3>RAM</h3>
+            <p>32GB DDR5</p>
+            <button class="read-more" data-title="RAM" data-content="32GB DDR5, 4800MHz, dual-channel configuration, upgradeable up to 64GB via SO-DIMM slots.">Read more</button>
+          </div>
+
+          <div class="spec-card">
+            <h3>Storage</h3>
+            <p>1TB SSD</p>
+            <button class="read-more" data-title="Storage" data-content="1TB NVMe PCIe Gen4 SSD, Samsung M.2, read speeds up to 7000MB/s.">Read more</button>
+          </div>
+
+          <div class="spec-card">
+            <h3>Graphics</h3>
+            <p>NVIDIA RTX 3050</p>
+            <button class="read-more" data-title="Graphics" data-content="NVIDIA GeForce RTX 3050 with 4GB GDDR6 VRAM, CUDA support, optimized for rendering and light gaming.">Read more</button>
+          </div>
+
+          <div class="spec-card">
+            <h3>Operating System</h3>
+            <p>Windows 11 Pro</p>
+            <button class="read-more" data-title="Operating System" data-content="Windows 11 Professional 64-bit with BitLocker, virtualization support, and enterprise-grade management tools.">Read more</button>
+          </div>
+        </section>
+
+        <section class="actions">
+          <button>Edit</button>
+          <button>Request Support</button>
+          <button class="danger">Retire Device</button>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <button class="close-modal" id="close-modal">&times;</button>
+      <div class="modal-content" id="modal-content">
+        <!-- Dynamic content goes here -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
