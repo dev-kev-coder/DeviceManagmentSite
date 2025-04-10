@@ -1,0 +1,64 @@
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+*.userprefs
+*.userosscache
+*.sln.docstates
+
+# Ignore build outputs
+bin/
+obj/
+
+# NuGet Packages
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+# Rider / Resharper / Visual Studio Code
+*.idea/
+*.DotSettings.user
+*.dotCover
+*.sln.iml
+
+.vscode/
+.history/
+
+# Mac junk
+.DS_Store
+
+# Build logs
+*.log
+
+# Coverage & Reports
+TestResult*
+*.coverage
+*.coveragexml
+*.coverage.info
+*.lcov
+
+# Publishing
+publish/
+out/
+dist/
+
+# Application Insights Telemetry
+ApplicationInsights.config
+
+# User Secrets (if using .NET secrets locally)
+**/secrets.json
+
+# Other temporary files
+*.temp
+*.tmp
+*.cache
+*.class
+
+# OS Generated
+Thumbs.db
+desktop.ini
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+*.dotSettings.user
