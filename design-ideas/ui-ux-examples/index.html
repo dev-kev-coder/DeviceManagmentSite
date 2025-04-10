@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UI Component Showcase</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>UI Component Showcase</h1>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="#">Home</a> / <a href="#">Devices</a> / <span>Dell XPS 15</span>
+    </nav>
+
+    <!-- Button Well -->
+    <section>
+      <h2>Button Well</h2>
+      <div class="button-well">
+        <button>Save</button>
+        <button>Cancel</button>
+        <button class="danger">Delete</button>
+      </div>
+    </section>
+
+    <!-- Carousel -->
+    <section>
+      <h2>Carousel</h2>
+      <div class="carousel">
+        <div class="carousel-track" id="carousel-track">
+          <div class="carousel-item">1</div>
+          <div class="carousel-item">2</div>
+          <div class="carousel-item">3</div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button id="prev">&#8592;</button>
+        <button id="next">&#8594;</button>
+      </div>
+    </section>
+
+    <!-- Accordion -->
+    <section>
+      <h2>Accordion</h2>
+      <div class="accordion">
+        <button class="accordion-header">More Info</button>
+        <div class="accordion-content">
+          <p>This is detailed content hidden in an accordion.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <section>
+      <h2>Tabs</h2>
+      <div class="tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="1">Overview</button>
+          <button class="tab-btn" data-tab="2">Specs</button>
+        </div>
+        <div class="tab-content" id="tab-1">Overview content.</div>
+        <div class="tab-content hidden" id="tab-2">Specs content.</div>
+      </div>
+    </section>
+
+    <!-- Toast -->
+    <section>
+      <h2>Toast</h2>
+      <button id="show-toast">Show Toast</button>
+      <div class="toast" id="toast">Settings saved!</div>
+    </section>
+
+    <!-- Tooltip -->
+    <section>
+      <h2>Tooltip</h2>
+      <button class="tooltip-btn">Hover me
+        <span class="tooltip-text">Tooltip content!</span>
+      </button>
+    </section>
+
+    <!-- Dropdown -->
+    <section>
+      <h2>Dropdown</h2>
+      <div class="dropdown">
+        <button class="dropdown-toggle">Select an Option</button>
+        <ul class="dropdown-menu">
+          <li>Option 1</li>
+          <li>Option 2</li>
+          <li>Option 3</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Modal -->
+    <section>
+      <h2>Modal</h2>
+      <button id="open-modal">Open Modal</button>
+      <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+          <button id="close-modal" class="close-modal">&times;</button>
+          <p>This is a modal window for detailed interaction.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Bar -->
+    <section>
+      <h2>Progress Bar</h2>
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar" style="width: 60%;">60%</div>
+      </div>
+    </section>
+
+    <!-- Pagination -->
+    <section>
+      <h2>Pagination</h2>
+      <div class="pagination">
+        <button>&laquo;</button>
+        <button class="active">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>&raquo;</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

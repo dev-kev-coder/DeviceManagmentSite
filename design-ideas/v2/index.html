@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SugarWorks - Device Details</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <nav class="side-nav" id="side-nav">
+      <div class="nav-header">
+        <h2>SugarWorks</h2>
+        <button class="close-nav" id="close-nav">&times;</button>
+      </div>
+      <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Devices</a></li>
+        <li><a href="#">Users</a></li>
+        <li><a href="#">Reports</a></li>
+      </ul>
+    </nav>
+
+    <div class="main-content">
+      <header class="sticky-header">
+        <button class="open-nav" id="open-nav">&#9776;</button>
+        <div>
+          <h1>Dell XPS 15</h1>
+          <p>Asset ID: SW-00123</p>
+        </div>
+      </header>
+
+      <main>
+        <section class="specs">
+          <h2>Specifications</h2>
+          <div class="spec-card"><h3>Processor</h3><p>Intel Core i7, 12th Gen</p></div>
+          <div class="spec-card"><h3>RAM</h3><p>32GB DDR5</p></div>
+          <div class="spec-card"><h3>Storage</h3><p>1TB SSD</p></div>
+          <div class="spec-card"><h3>Graphics</h3><p>NVIDIA RTX 3050</p></div>
+          <div class="spec-card"><h3>Operating System</h3><p>Windows 11 Pro</p></div>
+        </section>
+
+        <section class="actions">
+          <button>Edit</button>
+          <button>Request Support</button>
+          <button class="danger">Retire Device</button>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
