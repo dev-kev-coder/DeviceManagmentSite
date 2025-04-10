@@ -6,6 +6,7 @@ A website that is used to manage devices for an IT department
 
 ## Client
 
+- [&cross;] Set up basic Angular framework
 - [&cross;] Create wire frame for Mobile first design (on Figma)
 
 ## Server
