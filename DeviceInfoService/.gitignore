@@ -1,0 +1,79 @@
+###############################################################################
+#  GENERAL
+###############################################################################
+# Build results & intermediate files
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+
+# Configuration & package caches
+.nuget/
+packages/
+*.nupkg
+*.snupkg
+
+###############################################################################
+#  USER / IDE FILES
+###############################################################################
+# Visual Studio (all editions)
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.cache
+
+# Rider / ReSharper
+.idea/
+*.DotSettings.user
+
+# VS Code
+.vscode/
+
+###############################################################################
+#  TEST & COVERAGE ARTIFACTS
+###############################################################################
+TestResults/
+[Bb]uild[Ll]og.*
+*.coverage
+*.coveragexml
+*.log
+*.trx
+
+###############################################################################
+#  LOCAL TOOLS
+###############################################################################
+# dotnet-user-secrets
+secrets.json
+
+# Local Azure Functions settings
+local.settings.json
+
+###############################################################################
+#  WINDOWS INSTALLER / WIX
+###############################################################################
+# WiX intermediary & object files
+*.wixobj
+*.wixpdb
+*.wixproj.user
+# WiX bin/obj if you’ve split output
+**/bin/Release/
+**/bin/Debug/
+
+###############################################################################
+#  MISC
+###############################################################################
+# Logs & crash dumps
+*.dmp
+*.mdmp
+*.suo
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store*
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
