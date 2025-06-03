@@ -11,6 +11,7 @@ namespace AgentInstaller.Service
         // entry point — Windows Service **or** Console depending on how it’s launched
         public static void Main(string[] args)
         {
+            Console.WriteLine(AgentInstaller.Core.Configuration.AgentOptions.SayHello());
             // Build and run the generic host
             CreateHostBuilder(args).Build().Run();
         }
