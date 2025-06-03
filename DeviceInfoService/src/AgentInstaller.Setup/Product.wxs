@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <!-- minimal “hello-world” package, no payload yet -->
+  <Package Name="Agent Installer"
+           Manufacturer="YourCompany"
+           Version="0.1.0" />
+</Wix>
