@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting.WindowsServices;
+﻿//using System;
+//using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.Hosting;
+//using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Hosting.WindowsServices;
 
 namespace AgentInstaller.Service
 {
@@ -11,55 +11,51 @@ namespace AgentInstaller.Service
         // entry point — Windows Service **or** Console depending on how it’s launched
         public static void Main(string[] args)
         {
-            // DLL library
-            //Console.WriteLine(AgentInstaller.Core.Configuration.AgentOptions.SayHello());
-
             // Build and run the generic host
             var host = CreateHostBuilder(args);
 
             host.Build().Run();
         }
-        //private static IHostBuilder CreateHostBuilder(string[] args)
         private static HostApplicationBuilder CreateHostBuilder(string[] args)
         {
-            //var hostBuilder = Host.CreateDefaultBuilder();
-            //hostBuilder.ConfigureServices(services =>
-            //{
-            //    services.AddHostedService<Worker>();
-            //});
-
-            //return hostBuilder;
             var appBuilderSettings = new HostApplicationBuilderSettings();
-            appBuilderSettings.ApplicationName = "DeviceInfoAgent";
-            //appBuilderSettings.ContentRootPath = Directory.GetCurrentDirectory();
-            var builder = Host.CreateEmptyApplicationBuilder(appBuilderSettings);
-            builder.Services.AddLogging(log => { log.AddConsole(); log.SetMinimumLevel(LogLevel.Information); });
-            builder.Services.AddHostedService<Worker>();
-            return builder;
-        }
+            // Command-line flags (automatic --key=value flag parsing)
+            appBuilderSettings.Args = args; 
 
-        /// <summary>
-        /// Configures the Host for console AND Windows-Service use.
-        /// </summary>
-        //private static IHostBuilder CreateHostBuilder(string[] args) =>
-        //    Host.CreateDefaultBuilder(args)
-        //        // ❗ tell the runtime this exe can run as a service
-        //        .UseWindowsService(options =>
-        //        {
-        //            // (visible name in services.msc)
-        //            options.ServiceName = "AgentInstaller Service";
-        //        })
-        //        // add logging, configuration, DI, etc. here
-        //        .ConfigureServices((hostContext, services) =>
-        //        {
-        //            services.AddHostedService<Worker>();      // the background worker you scaffolded
-        //            // services.AddSingleton<IMyDependency, MyDependency>();
-        //        })
-        //        // optional: tweak default logging
-        //        .ConfigureLogging(logging =>
-        //        {
-        //            logging.ClearProviders();
-        //            logging.AddConsole();
-        //        });
+            // Path for relative file look ups (if the process needs to read from or write to a file?)
+            appBuilderSettings.ContentRootPath = Directory.GetCurrentDirectory();
+
+            // Sets the EnvironmentName for the host process
+            // I believe this can later be used in injected services to be able to tell what run time the host process is currently running in
+            // Useful for swapping between Dev testing and Prod ready programs
+            // Literally this is just a way to configure your hosts process and change any settings that does not affect implementation
+            appBuilderSettings.EnvironmentName = Environments.Development; 
+
+            // App name will show up on logger. Helpful for libraries to locate resources
+            appBuilderSettings.ApplicationName = "DeviceInfoAgent";
+
+            // Builder to use to configure Host
+            var appBuilder = Host
+                .CreateEmptyApplicationBuilder(appBuilderSettings);
+
+            // Not really sure what this does yet
+            appBuilder.Configuration
+                .AddJsonFile($"appsettings.{appBuilderSettings.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .AddCommandLine(args);
+
+            // Not really sure what this does yet
+            appBuilder.Logging
+                .AddConsole()
+                .AddDebug()
+                .SetMinimumLevel(LogLevel.Information);
+
+            // Not really sure what this does yet either...
+            appBuilder.Services
+                .AddHostedService<Worker>()
+                .AddWindowsService();
+
+            return appBuilder;
+        }
     }
 }
