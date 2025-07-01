@@ -1,12 +1,94 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Management.Infrastructure;
 
 namespace AgentInstaller.Service.utils
 {
     internal class DeviceInfo
     {
+        public DeviceInfo() 
+        {
+        }
+
+        // https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-provider
+        class Win32_DiskDrive
+        {
+            public Win32_DiskDrive() 
+            {
+            }
+
+            //public UInt16 Availability;
+            public string Availability;
+            public UInt32 BytesPerSector;
+            public UInt16[] Capabilities;
+            public string[] CapabilityDescriptions;
+            public string Caption;
+            public string CompressionMethod;
+            public UInt32 ConfigManagerErrorCode;
+            public bool ConfigManagerUserConfig;
+            public string CreationClassName;
+            public UInt64 DefaultBlockSize;
+            public string Description;
+            public string DeviceID;
+            public bool ErrorCleared;
+            public string ErrorDescription;
+            public string ErrorMethodology;
+            public string FirmwareRevision;
+            public UInt32 Index;
+            public DateTime InstallDate;
+            public string InterfaceType;
+            public UInt32 LastErrorCode;
+            public string Manufacturer;
+            public UInt64 MaxBlockSize;
+            public UInt64 MaxMediaSize;
+            public bool MediaLoaded;
+            public string MediaType;
+            public UInt64 MinBlockSize;
+            public string Model;
+            public string Name;
+            public bool NeedsCleaning;
+            public UInt32 NumberOfMediaSupported;
+            public UInt32 Partitions;
+            public string PNPDeviceID;
+            public UInt16[] PowerManagementCapabilities;
+            public bool PowerManagementSupported;
+            public UInt32 SCSIBus;
+            public UInt16 SCSILogicalUnit;
+            public UInt16 SCSIPort;
+            public UInt16 SCSITargetId;
+            public UInt32 SectorsPerTrack;
+            public string SerialNumber;
+            public UInt32 Signature;
+            public UInt64 Size;
+            public string Status;
+            public UInt16 StatusInfo;
+            public string SystemCreationClassName;
+            public string SystemName;
+            public UInt64 TotalCylinders;
+            public UInt32 TotalHeads;
+            public UInt64 TotalSectors;
+            public UInt64 TotalTracks;
+            public UInt32 TracksPerCylinder;
+        };
+
+        /**
+         * Method below will be the testing point to see if WMI would be suitable tool to query information
+         * on IT related devices. Paticularly windows laptops or desktops
+         * 
+         * Will need to check to ensure that the service is running on the targetted machine.
+         * 
+         * Need to add check for build time in order to ensure this can be bundled in Windows
+         */
+        public static void GetDeviceInfoWMI()
+        {
+            var wmiNamespace = @"root\cimv2";
+            var diskDriveQuery = "SELECT * FROM Win32_LogicalDisk";
+            var cimQuerySession = CimSession.Create(null);
+            var queriedDrives = cimQuerySession.QueryInstances(wmiNamespace, "WQL", diskDriveQuery);
+            var diskDriveInfo = new Win32_DiskDrive();
+            foreach (var drive in queriedDrives)
+            { 
+                diskDriveInfo.DeviceID = drive.CimInstanceProperties["DeviceID"].Value.ToString();
+                diskDriveInfo.Availability = drive.CimInstanceProperties["Availability"].Value.ToString();
+            }
+        }
     }
 }
