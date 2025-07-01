@@ -62,9 +62,10 @@ namespace AgentInstaller.Service
             {
                 // TODO: real work—ping server, collect telemetry, etc.
                 _log.LogInformation("Heartbeat {Time}", DateTimeOffset.Now);
-                Kernel32.GetNativeSystemInfo(out var info);
-                Console.WriteLine($"{info.dwNumberOfProcessors} logical procs, page size {info.dwPageSize} bytes, arch {info.wProcessorArchitecture}");
-                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                Test.CallMe();
+                //Kernel32.GetNativeSystemInfo(out var info);
+                //Console.WriteLine($"{info.dwNumberOfProcessors} logical procs, page size {info.dwPageSize} bytes, arch {info.wProcessorArchitecture}");
+                await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
             }
         }
     }
