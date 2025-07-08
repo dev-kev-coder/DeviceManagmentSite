@@ -7,6 +7,15 @@ namespace AgentInstaller.Service.utils
         public DeviceInfo() 
         {
         }
+        class Win32_BIOS
+        {
+            public string[] BIOSVersion { get; set; }
+            public string Manufacturer { get; set; }
+            public string SerialNumber { get; set; }
+            public  string Version { get; set; }
+            public string Status { get; set; }
+            public UInt16[] BiosCharacteristics { get; set; }
+        }
 
         // https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-provider
         class Win32_DiskDrive
@@ -80,15 +89,90 @@ namespace AgentInstaller.Service.utils
         public static void GetDeviceInfoWMI()
         {
             var wmiNamespace = @"root\cimv2";
-            var diskDriveQuery = "SELECT * FROM Win32_LogicalDisk";
-            var cimQuerySession = CimSession.Create(null);
-            var queriedDrives = cimQuerySession.QueryInstances(wmiNamespace, "WQL", diskDriveQuery);
-            var diskDriveInfo = new Win32_DiskDrive();
-            foreach (var drive in queriedDrives)
-            { 
-                diskDriveInfo.DeviceID = drive.CimInstanceProperties["DeviceID"].Value.ToString();
-                diskDriveInfo.Availability = drive.CimInstanceProperties["Availability"].Value.ToString();
-            }
+            var diskDriveQuery = "SELECT * FROM Win32_BIOS";
+            var wmiQuerier = new CimQuerier();
+            var results = wmiQuerier
+                .QueryWMI(diskDriveQuery)
+                .Select(res =>
+                {
+                    var win32BiosInfo = new Win32_BIOS();
+                    var cimProps = res.CimInstanceProperties;
+
+                    win32BiosInfo.Manufacturer = TypeCaster
+                    .Cast(cimProps[nameof(win32BiosInfo.Manufacturer)].Value, win32BiosInfo.Manufacturer);
+                    win32BiosInfo.Status = TypeCaster
+                    .Cast<string>(cimProps[nameof(win32BiosInfo.Status)].Value);
+                    win32BiosInfo.SerialNumber = TypeCaster
+                    .Cast<string>(cimProps[nameof(win32BiosInfo.SerialNumber)].Value);
+                    win32BiosInfo.BiosCharacteristics = TypeCaster
+                    .Cast<ushort[]>(cimProps[nameof(win32BiosInfo.BiosCharacteristics)].Value);
+                    win32BiosInfo.Version = TypeCaster
+                    .Cast<string>(cimProps[nameof(win32BiosInfo.Version)].Value);
+                    win32BiosInfo.BIOSVersion = TypeCaster
+                    .Cast<string[]>(cimProps[nameof(win32BiosInfo.BIOSVersion)].Value);
+
+                    return win32BiosInfo;
+                }).ToArray();
+
         }
+    }
+
+    public class CimQuerier
+    {
+        private string _wmiNamespace = @"root\cimv2";
+
+        private string _queryStructure = "WQL";
+
+        private CimSession _defaultCimSession = null;
+
+        public CimQuerier()
+        {
+            _defaultCimSession = CimSession.Create(null);
+        }
+
+        public CimQuerier(string wmiNameSpace, string queryStructure)
+        {
+            _wmiNamespace = wmiNameSpace;
+            _queryStructure = queryStructure;
+            _defaultCimSession = CimSession.Create(null);
+        }
+
+        public IEnumerable<CimInstance> QueryWMI(string query)
+        {
+            return _defaultCimSession.QueryInstances(_wmiNamespace, _queryStructure, query);
+        }
+    }
+
+    public static class TypeCaster
+    {
+        /// <summary>
+        /// Tries to cast <paramref name="value"/> to <typeparamref name="T"/>.
+        /// — Returns the cast value on success, or <c>null</c> on failure.
+        /// Works for value types (primitives, structs) and reference types.
+        /// </summary>
+        public static T? CastOrNull<T>(object? value)  // no constraint needed
+        {
+            return value is T t ? t : default;   // default == null for both T? cases
+        }
+
+        /// <summary>
+        /// Un-safe cast operation.
+        /// Will cause an Exception to be thrown when a cast is unsuccessful.
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T Cast<T>(object? value) => (T)value;
+
+        /// <summary>
+        /// Un-safe cast operation.
+        /// Will cause an Exception to be thrown when a cast is unsuccessful.
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static T Cast<T>(object? value, T refValue) => (T)value;
     }
 }
