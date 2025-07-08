@@ -103,26 +103,46 @@ namespace AgentInstaller.Service.utils
             return obj;
         }
 
+
         public static void GetDeviceInfoWMI()
         {
 
-            var wmiNamespace = @"root\cimv2";
-            var diskDriveQuery = "SELECT * FROM Win32_BIOS";
-            var wmiQuerier = new CimQuerier();
-            var results = wmiQuerier
-                .QueryWMI(diskDriveQuery)
-                .Select(res =>
-                {
-                    var cimProps = res.CimInstanceProperties;
+            //var option1 = new WMIQueryOption<Win32_BIOS>("Win32_BIOS");
+            //var option2 = new WMIQueryOption<Win32_DiskDrive>("Win32_DiskDrive");
 
-                    var win32BiosInfo = CreateAndPopulateV2<Win32_BIOS>((propName, propType) =>
-                    {
-                        //return TypeCaster.Cast(cimProps[propName].Value, propType);
-                        return DeviceInfoTypeCaster.UnboxToType(cimProps[propName].Value);
-                    });
+            var option1 = new WMIQueryOptionV2<Win32_BIOS>("Win32_BIOS")
+                .CreateAndPopulate();
 
-                    return win32BiosInfo;
-                }).ToArray();
+            var option2 = new WMIQueryOptionV2<Win32_DiskDrive>("Win32_DiskDrive")
+                .CreateAndPopulate();
+
+
+            //var wmiNamespace = @"root\cimv2";
+            //var diskDriveQuery = "SELECT * FROM Win32_BIOS";
+            //var wmiQuerier = new CimQuerier();
+            //var results = wmiQuerier
+            //    .QueryWMI(diskDriveQuery)
+            //    .Select(res =>
+            //    {
+            //        var cimProps = res.CimInstanceProperties;
+
+            //        //var constructionator = new MagicAutoConstructinator<Win32_BIOSV2>();
+
+            //        //var test = constructionator.CreateAndPopulate((propName, propType) =>
+            //        //{
+            //        //    return DeviceInfoTypeCaster.UnboxToType(cimProps[propName].Value);
+            //        //});
+
+            //        //return test;
+
+            //        var win32BiosInfo = CreateAndPopulateV2<Win32_BIOS>((propName, propType) =>
+            //        {
+            //            //return TypeCaster.Cast(cimProps[propName].Value, propType);
+            //            return DeviceInfoTypeCaster.UnboxToType(cimProps[propName].Value);
+            //        });
+
+            //        return win32BiosInfo;
+            //    }).ToArray();
 
         }
     }
