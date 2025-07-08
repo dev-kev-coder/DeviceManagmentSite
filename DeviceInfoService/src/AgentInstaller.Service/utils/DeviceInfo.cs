@@ -1,4 +1,5 @@
 ﻿using Microsoft.Management.Infrastructure;
+using System.Reflection;
 
 namespace AgentInstaller.Service.utils
 {
@@ -78,16 +79,33 @@ namespace AgentInstaller.Service.utils
             public UInt32 TracksPerCylinder;
         };
 
-        /**
-         * Method below will be the testing point to see if WMI would be suitable tool to query information
-         * on IT related devices. Paticularly windows laptops or desktops
-         * 
-         * Will need to check to ensure that the service is running on the targetted machine.
-         * 
-         * Need to add check for build time in order to ensure this can be bundled in Windows
-         */
+        public static T CreateAndPopulateV2<T>(Func< string, Type, object> getValue) where T : class
+        {
+            // Attempt to create instance of type T
+            var obj = Activator.CreateInstance(typeof(T)) as T;
+
+            // Guard against creation errors
+            if (obj == null) throw new Exception($"Could not create instance of type: {typeof(T)}");
+
+            // Get public properties of a type that inherits class
+            var props = typeof(T)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(prop => prop.CanWrite);
+
+            // Go through each property and process it
+            foreach (var prop in props)
+            {
+                var value = getValue(prop.Name, prop.PropertyType);
+
+                prop.SetValue(obj, value, null);
+            }
+
+            return obj;
+        }
+
         public static void GetDeviceInfoWMI()
         {
+
             var wmiNamespace = @"root\cimv2";
             var diskDriveQuery = "SELECT * FROM Win32_BIOS";
             var wmiQuerier = new CimQuerier();
@@ -95,21 +113,13 @@ namespace AgentInstaller.Service.utils
                 .QueryWMI(diskDriveQuery)
                 .Select(res =>
                 {
-                    var win32BiosInfo = new Win32_BIOS();
                     var cimProps = res.CimInstanceProperties;
 
-                    win32BiosInfo.Manufacturer = TypeCaster
-                    .Cast(cimProps[nameof(win32BiosInfo.Manufacturer)].Value, win32BiosInfo.Manufacturer);
-                    win32BiosInfo.Status = TypeCaster
-                    .Cast<string>(cimProps[nameof(win32BiosInfo.Status)].Value);
-                    win32BiosInfo.SerialNumber = TypeCaster
-                    .Cast<string>(cimProps[nameof(win32BiosInfo.SerialNumber)].Value);
-                    win32BiosInfo.BiosCharacteristics = TypeCaster
-                    .Cast<ushort[]>(cimProps[nameof(win32BiosInfo.BiosCharacteristics)].Value);
-                    win32BiosInfo.Version = TypeCaster
-                    .Cast<string>(cimProps[nameof(win32BiosInfo.Version)].Value);
-                    win32BiosInfo.BIOSVersion = TypeCaster
-                    .Cast<string[]>(cimProps[nameof(win32BiosInfo.BIOSVersion)].Value);
+                    var win32BiosInfo = CreateAndPopulateV2<Win32_BIOS>((propName, propType) =>
+                    {
+                        //return TypeCaster.Cast(cimProps[propName].Value, propType);
+                        return DeviceInfoTypeCaster.UnboxToType(cimProps[propName].Value);
+                    });
 
                     return win32BiosInfo;
                 }).ToArray();
@@ -141,38 +151,5 @@ namespace AgentInstaller.Service.utils
         {
             return _defaultCimSession.QueryInstances(_wmiNamespace, _queryStructure, query);
         }
-    }
-
-    public static class TypeCaster
-    {
-        /// <summary>
-        /// Tries to cast <paramref name="value"/> to <typeparamref name="T"/>.
-        /// — Returns the cast value on success, or <c>null</c> on failure.
-        /// Works for value types (primitives, structs) and reference types.
-        /// </summary>
-        public static T? CastOrNull<T>(object? value)  // no constraint needed
-        {
-            return value is T t ? t : default;   // default == null for both T? cases
-        }
-
-        /// <summary>
-        /// Un-safe cast operation.
-        /// Will cause an Exception to be thrown when a cast is unsuccessful.
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static T Cast<T>(object? value) => (T)value;
-
-        /// <summary>
-        /// Un-safe cast operation.
-        /// Will cause an Exception to be thrown when a cast is unsuccessful.
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static T Cast<T>(object? value, T refValue) => (T)value;
     }
 }
