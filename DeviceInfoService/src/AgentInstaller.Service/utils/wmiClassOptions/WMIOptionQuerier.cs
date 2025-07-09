@@ -12,6 +12,13 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
     {
         private CimQuerier? _querier;
 
+        /// <summary>
+        /// WMI Querier/Mapper utility
+        /// Provide class definition that maps to the WMI return types on the MS Doc page.
+        /// 
+        /// Leverages relfection to properties from WMI resultes.
+        /// Properties must be declared a public for util to have access
+        /// </summary>
         public WMIOptionQuerier()
         {
             _querier = new CimQuerier();
@@ -62,6 +69,8 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
     {
         private CimQuerier _querier;
         public string WMIClassName { get; set; }
+        public List<string> WmiNullQueryProperties {  get; } 
+        public List <string> WMIQueryPropertiesNotFound { get; }
 
         public WMIQueryOption(string className, CimQuerier? querier = null)
         {
@@ -76,26 +85,82 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
             {
                 _querier = new CimQuerier();
             }
+
+            WmiNullQueryProperties = new List<string>();
+            WMIQueryPropertiesNotFound = new List<string>();
         }
 
+        private bool IsNullableType(Type type)
+        {
+            if (!type.IsValueType) return true;
 
+            return Nullable.GetUnderlyingType(type) != null;
+        }
+
+        /// <summary>
+        /// <para>
+        /// Takes your Class Definition and Queries WMI using the Property names via reflection.
+        /// Only processes public properites on class definition.
+        /// </para>
+        /// 
+        /// <para>
+        /// Class Definitions that have nullable property types are treated as fault tolerant.
+        /// Anytime the process encounters issue casting/converting boxed values from WMI
+        /// it will return back null only if the property was defined as nullable
+        /// </para>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public T[] CreateAndPopulate()
         {
-            var queryResults = _querier
-                .QueryWMI($"SELECT * FROM {this.WMIClassName}")
-                .Select(res =>
+            var cim = _querier.QueryWMI($"SELECT * FROM {this.WMIClassName}");
+
+            // Edge case: some queries can return a guhgillion results (over 100,000)
+            // We to handle this in a good way.
+            // Right now how do we figure out the way to break the program from using a missing feature
+            //var resCount = cim.Count();
+
+            // Currently limiting process to only be able to map 100 results
+            var mappedResults = cim.Take(100).Select(res =>
+            {
+                // WMI query results
+                var cimProps = res.CimInstanceProperties;
+
+                var constructedOjb = this.CreateAndPopulate((propName, propType) =>
                 {
-                    var cimProps = res.CimInstanceProperties;
-
-                    var constructedOjb = this.CreateAndPopulate((propName, propType) =>
+                    if (cimProps[propName] == null)
                     {
-                        return DeviceInfoTypeCaster.UnboxToType(cimProps[propName].Value);
-                    });
+                        WMIQueryPropertiesNotFound.Add(propName);
+                    }
 
-                    return constructedOjb;
+                    var isObjPropNullable = IsNullableType(propType);
+
+                    var cimPropValue = cimProps[propName] == null 
+                    ? null 
+                    : cimProps[propName].Value;
+
+                    if (cimPropValue == null && !isObjPropNullable)
+                    {
+                        throw new Exception($"Value from query was null and {propName} is not a nullable type");
+                    }
+
+                    if (cimPropValue == null && isObjPropNullable)
+                    {
+                        WmiNullQueryProperties.Add(propName);
+
+                        return null;
+                    }
+
+                    var unboxedVal = DeviceInfoTypeCaster.UnboxToType(cimProps[propName].Value);
+
+                    return unboxedVal;
                 });
 
-            return queryResults.ToArray();
+                return constructedOjb;
+            });
+
+             return mappedResults.ToArray();
         }
 
         public T CreateAndPopulate(Func<string, Type, object> getValue)
@@ -110,12 +175,23 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(prop => prop.CanWrite);
 
-            // Go through each property and process it
             foreach (var prop in props)
             {
+                // Go through each property and process it
                 var value = getValue(prop.Name, prop.PropertyType);
-
                 prop.SetValue(obj, value, null);
+
+                //try
+                //{
+                //    // Go through each property and process it
+                //    var value = getValue(prop.Name, prop.PropertyType);
+                //    prop.SetValue(obj, value, null);
+
+                //} catch (Exception ex) 
+                //{
+                //    // Empty throw preserves call stack details
+                //    throw new Exception($"Error: {ex.Message}\n Failed to set {prop.Name} to {prop.PropertyType.FullName}");
+                //}
             }
 
             return obj;
