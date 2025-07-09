@@ -21,6 +21,11 @@ namespace AgentInstaller.Service.utils
         /// <exception cref="Exception"></exception>
         public static dynamic UnboxToType(object value, Type? type = null)
         {
+            if (value == null)
+            {
+                throw new Exception("Util is not designed to handle null gracefully as it is part of the DeviceInfo library.");
+            }
+
             var targetType = type ?? value.GetType();
 
 
