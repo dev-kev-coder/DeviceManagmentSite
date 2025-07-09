@@ -40,7 +40,7 @@ namespace AgentInstaller.Service.utils
         public static void GetDeviceInfoWMI()
         {
             var wmiOptionQuerier = new WMIOptionQuerier();
-
+            
             var option1 = wmiOptionQuerier
                 .CreateQueryOption<Win32_BIOS>("Win32_BIOS")
                 .CreateAndPopulate();
@@ -49,9 +49,13 @@ namespace AgentInstaller.Service.utils
                 .CreateQueryOption<Win32_DiskDrive>("Win32_DiskDrive")
                 .CreateAndPopulate();
 
-            //var option3 = wmiOptionQuerier
-            //    .CreateQueryOption<Win32_Directory>("Win32_Directory")
-            //    .CreateAndPopulate();
+            var option3 = wmiOptionQuerier
+                .CreateQueryOption<Win32_ComputerSystemProduct>("Win32_ComputerSystemProduct")
+                .CreateAndPopulate();
+
+            var option4 = wmiOptionQuerier
+                .CreateQueryOption<Win32_Directory>("Win32_Directory")
+                .CreateAndPopulate();
 
             var stop = "here";
 
