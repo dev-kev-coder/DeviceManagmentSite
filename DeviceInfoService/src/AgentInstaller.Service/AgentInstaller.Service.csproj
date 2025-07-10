@@ -5,6 +5,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-AgentInstaller.Service-870da98b-cc19-4ddc-ab4f-75a60ff9e4be</UserSecretsId>
+	  
+	  <!--These two options allow the source generator files to be written to the filesystem and set a custom path to write them to vs. using the default path.-->
+	<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+	<CompilerGeneratedFilesOutputPath>.\GeneratedFiles</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,5 +20,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AgentInstaller.Core\AgentInstaller.Core.csproj" />
+	  
+	  <!--When referencing the source generator, we do not need the output assembly again because it is not required after compile time.-->
+	<!--<ProjectReference Include="..\SourceGenerator.SharedLibrary\SourceGenerator.SharedLibrary.csproj" />-->
+	<ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
   </ItemGroup>
 </Project>
