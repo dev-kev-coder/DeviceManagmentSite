@@ -126,9 +126,13 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
             {
                 // WMI query results
                 var cimProps = res.CimInstanceProperties;
-
+                /**
+                 * Will perform a series of checks to ensure that the class definition that was passed in 
+                 * can be leveraged for fault tolerance during a process.
+                 * **/
                 var constructedOjb = this.CreateAndPopulate((propName, propType) =>
                 {
+                    // Check to see class definition properties names correspond to cimProp keys
                     if (cimProps[propName] == null)
                     {
                         WMIQueryPropertiesNotFound.Add(propName);
