@@ -13,7 +13,7 @@ namespace AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.Process
         public string Name { get; set; }
         public string Model { get; set; }
         public string Status { get; set; }
-        public ulong Size { get; set; }
-        public ushort Availability { get; set; }
+        public ulong? Size { get; set; }
+        public ushort? Availability { get; set; }
     };
 }

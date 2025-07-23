@@ -9,7 +9,7 @@ namespace AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.periphe
     public class Win32_VideoController
     {
         public string Name { get; set; }
-        public string AdapterRAM { get; set; }
+        public UInt32? AdapterRAM { get; set; }
         public string DriverVersion { get; set; }
     }
 }
