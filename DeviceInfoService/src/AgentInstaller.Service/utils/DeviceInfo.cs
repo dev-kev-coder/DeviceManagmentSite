@@ -4,6 +4,7 @@ using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.network;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.operatingSystem;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.peripherals;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.ProcessAndStorage;
+using Microsoft.Management.Infrastructure;
 
 namespace AgentInstaller.Service.utils
 {
@@ -27,6 +28,8 @@ namespace AgentInstaller.Service.utils
                 GetPeripheralInfo(optionQuerier);
 
                 GetProcessAndStorageInfo(optionQuerier);
+
+                log.Log(LogLevel.Information, "Device info query complete");
             }
             catch (Exception ex) 
             {
@@ -96,9 +99,10 @@ namespace AgentInstaller.Service.utils
                 .CreateQueryOption<Win32_DesktopMonitor>("Win32_DesktopMonitor")
                 .CreateAndPopulate();
 
-            var tpm = querier
-                .CreateQueryOption<Win32_Tpm>("Win32_Tpm")
-                .CreateAndPopulate();
+            // Getting an Access denied error. Might need to run in admin mode?
+            //var tpm = querier
+            //    .CreateQueryOption<Win32_Tpm>("Win32_Tpm")
+            //    .CreateAndPopulate(@"root\CIMV2\Security\MicrosoftTpm");
 
             var gpu = querier
                 .CreateQueryOption<Win32_VideoController>("Win32_VideoController")
