@@ -9,6 +9,25 @@ namespace AgentInstaller.Service.utils
     public class DeviceInfoTypeCaster
     {
         /// <summary>
+        /// 
+        /// Will check underlying types in order to do fault tolerant type comparisons.
+        /// 
+        /// Properties on Classes that have a Nullable<T> should still be able to accept the type T as a value when being compared.
+        /// 
+        /// </summary>
+        /// <param name="typeA"></param>
+        /// <param name="typeB"></param>
+        /// <returns></returns>
+        public static bool AreSameOrNullableEquivalent(Type typeA, Type typeB)
+        {
+            var ntypeA = Nullable.GetUnderlyingType(typeA) ?? typeA;
+
+            var ntypeB = Nullable.GetUnderlyingType(typeB) ?? typeB;
+
+            return ntypeA == ntypeB;
+        }
+
+        /// <summary>
         /// Extracts out a boxed objects value.
         /// Will extract out the type of the object and use it map to the appropriate type cast.
         /// 
@@ -41,15 +60,31 @@ namespace AgentInstaller.Service.utils
             {
                 return (UInt16[])value;
             }
+            if (targetType.Equals(typeof(UInt16)))
+            {
+                return (UInt16)value;
+            }
             if (targetType.Equals(typeof(UInt32)))
             {
                 return (UInt32)value;
+            }
+            if (targetType.Equals(typeof(UInt32[])))
+            {
+                return (UInt32[])value;
             }
             if (targetType.Equals(typeof(UInt64)))
             {
                 return (UInt64)value;
             }
+            if (targetType.Equals(typeof(UInt64[])))
+            {
+                return (UInt64)value;
+            }
             if (targetType.Equals(typeof(UInt128)))
+            {
+                return (UInt128)value;
+            }
+            if (targetType.Equals(typeof(UInt128[])))
             {
                 return (UInt128)value;
             }
