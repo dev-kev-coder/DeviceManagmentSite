@@ -58,9 +58,11 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
             _defaultCimSession = CimSession.Create(null);
         }
 
-        public IEnumerable<CimInstance> QueryWMI(string query)
+        public IEnumerable<CimInstance> QueryWMI(string query, string wmiNameSpaceOverride)
         {
-            return _defaultCimSession.QueryInstances(_wmiNamespace, _queryStructure, query);
+            var targetNameSpace = wmiNameSpaceOverride ?? _wmiNamespace;
+
+            return _defaultCimSession.QueryInstances(targetNameSpace, _queryStructure, query);
         }
     }
 
@@ -112,9 +114,23 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public T[] CreateAndPopulate()
+        public T[] CreateAndPopulate(string wmiNameSpaceOverride = null)
         {
-            var cim = _querier.QueryWMI($"SELECT * FROM {this.WMIClassName}");
+            var cim = _querier.QueryWMI($"SELECT * FROM {this.WMIClassName}", wmiNameSpaceOverride);
+
+            var classTypeName = typeof(T).Name;
+
+            var first100results = new List<CimInstance>();
+
+            // Hack way to capture any errors ocurring in the CIM Class querying
+            try
+            {
+                first100results = cim.Take(100).ToList();
+            }
+            catch (Exception ex) 
+            {
+                throw new Exception($"Error: An error occurred querying {this.WMIClassName}. {ex.Message}");
+            }
 
             // Edge case: some queries can return a guhgillion results (over 100,000)
             // We to handle this in a good way.
@@ -122,14 +138,14 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
             //var resCount = cim.Count();
 
             // Currently limiting process to only be able to map 100 results
-            var mappedResults = cim.Take(100).Select(res =>
+            var mappedResults = first100results.Select(res =>
             {
                 // WMI query results
                 var cimProps = res.CimInstanceProperties;
                 /**
-                 * Will perform a series of checks to ensure that the class definition that was passed in 
-                 * can be leveraged for fault tolerance during a process.
-                 * **/
+                    * Will perform a series of checks to ensure that the class definition that was passed in 
+                    * can be leveraged for fault tolerance during a process.
+                    * **/
                 var constructedOjb = this.CreateAndPopulate((propName, propType) =>
                 {
                     // Check to see class definition properties names correspond to cimProp keys
@@ -146,7 +162,7 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
 
                     if (cimPropValue == null && !isObjPropNullable)
                     {
-                        throw new Exception($"Error: Value from query was null; {typeof(T).Name} {propName} must be nullabe to accept faults");
+                        throw new Exception($"Error: Value from query was null; {classTypeName} {propName} must be nullabe to accept faults");
                     }
 
                     if (cimPropValue == null && isObjPropNullable)
@@ -154,6 +170,13 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
                         WmiNullQueryProperties.Add(propName);
 
                         return null;
+                    }
+
+                    var cimPropValueType = cimPropValue.GetType();
+
+                    if (!DeviceInfoTypeCaster.AreSameOrNullableEquivalent(cimPropValueType, propType))
+                    {
+                        throw new Exception($"Error: Type mismatch between CIM Type and property type. {classTypeName}.{propName} expected {propType.Name} but got {cimPropValueType.Name}");
                     }
 
                     var unboxedVal = DeviceInfoTypeCaster.UnboxToType(cimProps[propName].Value);
@@ -164,8 +187,10 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
                 return constructedOjb;
             });
 
-             return mappedResults.ToArray();
+            return mappedResults.ToArray();
         }
+
+
 
         public T CreateAndPopulate(Func<string, Type, object> getValue)
         {
@@ -182,20 +207,10 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
             foreach (var prop in props)
             {
                 // Go through each property and process it
-                    var value = getValue(prop.Name, prop.PropertyType);
-
-                    prop.SetValue(obj, value, null);
-                //try
-                //{
-                //    // Go through each property and process it
-                //    var value = getValue(prop.Name, prop.PropertyType);
-                //    prop.SetValue(obj, value, null);
-
-                //} catch (Exception ex) 
-                //{
-                //    // Empty throw preserves call stack details
-                //    throw new Exception($"Error: {ex.Message}\n Failed to set {prop.Name} to {prop.PropertyType.FullName}");
-                //}
+                var value = getValue(prop.Name, prop.PropertyType);
+               
+                prop.SetValue(obj, value, null);
+                
             }
 
             return obj;
