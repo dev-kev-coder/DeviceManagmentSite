@@ -1,28 +1,110 @@
 ﻿using AgentInstaller.Service.utils.wmiClassOptions;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.general;
+using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.network;
+using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.operatingSystem;
+using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.peripherals;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.ProcessAndStorage;
 
 namespace AgentInstaller.Service.utils
 {
     internal class DeviceInfo
     {
-        public static void GetDeviceInfoWMI()
+        public static void GetDeviceInfoWMI(ILogger<Worker> log)
         {
             // Tool set at the bottom is cool but it's kinda manual having to build the class each time.
-            var wmiOptionQuerier = new WMIOptionQuerier();
-            
-            var option1 = wmiOptionQuerier
+            // TODO might be a good idea to figure out how to implement the builder pattern with this.
+            var optionQuerier = new WMIOptionQuerier();
+
+            try
+            {
+
+                GetGeneralDeviceInfo(optionQuerier);
+
+                GetNetworkInfo(optionQuerier);
+
+                GetOSInfo(optionQuerier);
+
+                GetPeripheralInfo(optionQuerier);
+
+                GetProcessAndStorageInfo(optionQuerier);
+            }
+            catch (Exception ex) 
+            {
+                // this will log ex.Message *and* ex.StackTrace
+                log.LogError(ex, "Error in {Method}", nameof(GetDeviceInfoWMI));
+                // if you really want a Trace‑level log:
+                log.LogTrace(ex, "Trace for exception in {Method}", nameof(GetDeviceInfoWMI));
+                // rethrow
+            }
+        }
+
+        private static void GetGeneralDeviceInfo(WMIOptionQuerier querier)
+        {
+            var bios = querier
                 .CreateQueryOption<Win32_BIOS>("Win32_BIOS")
                 .CreateAndPopulate();
 
-            var option2 = wmiOptionQuerier
+            var compSystemProduct = querier
+                .CreateQueryOption<Win32_ComputerSystemProduct>("Win32_ComputerSystemProduct")
+                .CreateAndPopulate();
+
+            var computerSystem = querier
+                .CreateQueryOption<Win32_ComputerSystem>("Win32_ComputerSystem")
+                .CreateAndPopulate();
+        }
+
+        private static void GetNetworkInfo(WMIOptionQuerier querier) 
+        {
+            var adatper = querier
+                .CreateQueryOption<Win32_NetworkAdapter>("Win32_ComputerSystem")
+                .CreateAndPopulate();
+
+            var adpaterConfig = querier
+                .CreateQueryOption<Win32_NetworkAdapterConfiguration>("Win32_ComputerSystem")
+                .CreateAndPopulate();
+        }
+
+        private static void GetOSInfo(WMIOptionQuerier querier)
+        {
+            var os = querier
+                .CreateQueryOption<Win32_OperatingSystem>("Win32_OperatingSystem")
+                .CreateAndPopulate();
+
+            var quickFix= querier
+                .CreateQueryOption<Win32_QuickFixEngineering>("Win32_QuickFixEngineering")
+                .CreateAndPopulate();
+        }
+
+        private static void GetProcessAndStorageInfo(WMIOptionQuerier querier)
+        {
+            var drives = querier
                 .CreateQueryOption<Win32_DiskDrive>("Win32_DiskDrive")
                 .CreateAndPopulate();
 
-            var option3 = wmiOptionQuerier
-                .CreateQueryOption<Win32_ComputerSystemProduct>("Win32_ComputerSystemProduct")
+            var ram = querier
+                .CreateQueryOption<Win32_PhysicalMemory>("Win32_PhysicalMemory")
+                .CreateAndPopulate();
+
+            var processors = querier
+                .CreateQueryOption<Win32_Processor>("Win32_Processor")
                 .CreateAndPopulate();
         }
+
+        private static void GetPeripheralInfo(WMIOptionQuerier querier)
+        {
+            var monitors = querier
+                .CreateQueryOption<Win32_DesktopMonitor>("Win32_DesktopMonitor")
+                .CreateAndPopulate();
+
+            var tpm = querier
+                .CreateQueryOption<Win32_Tpm>("Win32_Tpm")
+                .CreateAndPopulate();
+
+            var gpu = querier
+                .CreateQueryOption<Win32_VideoController>("Win32_VideoController")
+                .CreateAndPopulate();
+        }
+
         #region Crazy Ideas to be lazier
         #region T4 templates to create classes
         // Cool experiment!!! (uses T4 templates)

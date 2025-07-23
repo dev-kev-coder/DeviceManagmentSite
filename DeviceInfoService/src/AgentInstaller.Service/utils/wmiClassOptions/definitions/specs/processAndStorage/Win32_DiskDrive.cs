@@ -8,12 +8,12 @@ namespace AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.Process
 {
     public class Win32_DiskDrive
     {
-        public string SerialNumber;
-        public string Manufacturer;
-        public string Name;
-        public string Model;
-        public string Status;
-        public ulong Size;
-        public ushort Availability;
+        public string SerialNumber { get; set; }
+        public string Manufacturer { get; set; }
+        public string Name { get; set; }
+        public string Model { get; set; }
+        public string Status { get; set; }
+        public ulong Size { get; set; }
+        public ushort Availability { get; set; }
     };
 }

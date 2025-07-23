@@ -64,7 +64,7 @@ namespace AgentInstaller.Service
                 _log.LogInformation("Heartbeat {Time}", DateTimeOffset.Now);
                 //Kernel32.GetNativeSystemInfo(out var info);
                 //Console.WriteLine($"{info.dwNumberOfProcessors} logical procs, page size {info.dwPageSize} bytes, arch {info.wProcessorArchitecture}");
-                DeviceInfo.GetDeviceInfoWMI();
+                DeviceInfo.GetDeviceInfoWMI(_log);
                 await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
             }
         }

@@ -33,17 +33,29 @@ namespace AgentInstaller.Service.utils
             {
                 return (string[])value;
             }
-            if (targetType.Equals(typeof(string))) 
+            if (targetType.Equals(typeof(string)))
             {
-                return (string)value; 
+                return (string)value;
             }
             if (targetType.Equals(typeof(UInt16[])))
             {
                 return (UInt16[])value;
             }
-            if (targetType.Equals(typeof(UInt16)))
+            if (targetType.Equals(typeof(UInt32)))
             {
-                return (UInt16)value;
+                return (UInt32)value;
+            }
+            if (targetType.Equals(typeof(UInt64)))
+            {
+                return (UInt64)value;
+            }
+            if (targetType.Equals(typeof(UInt128)))
+            {
+                return (UInt128)value;
+            }
+            if (targetType.Equals(typeof(DateTime)))
+            {
+                return (DateTime)value;
             }
 
             throw new Exception("Exhausted all list of types. Missing cast for " + targetType.FullName);

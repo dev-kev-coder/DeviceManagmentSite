@@ -146,7 +146,7 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
 
                     if (cimPropValue == null && !isObjPropNullable)
                     {
-                        throw new Exception($"Value from query was null and {propName} is not a nullable type");
+                        throw new Exception($"Error: Value from query was null; {typeof(T).Name} {propName} must be nullabe to accept faults");
                     }
 
                     if (cimPropValue == null && isObjPropNullable)
@@ -182,9 +182,9 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
             foreach (var prop in props)
             {
                 // Go through each property and process it
-                var value = getValue(prop.Name, prop.PropertyType);
-                prop.SetValue(obj, value, null);
+                    var value = getValue(prop.Name, prop.PropertyType);
 
+                    prop.SetValue(obj, value, null);
                 //try
                 //{
                 //    // Go through each property and process it

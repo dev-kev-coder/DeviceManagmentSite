@@ -12,8 +12,8 @@ namespace AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.periphe
         public string DeviceID { get; set; }
         public string MonitorManufacturer { get; set; }
         public string MonitorType { get; set; }
-        public uint ScreenHeight { get; set; }
-        public uint ScreenWidth { get; set; }
-        public ushort StatusInfo { get; set; }
+        public uint? ScreenHeight { get; set; }
+        public uint? ScreenWidth { get; set; }
+        public ushort? StatusInfo { get; set; }
     }
 }
