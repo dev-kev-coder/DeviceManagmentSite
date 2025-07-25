@@ -1,37 +1,41 @@
-﻿using AgentInstaller.Service.utils.wmiClassOptions;
+﻿using AgentInstaller.Service.utils.ComputerDeviceInfoPayload;
+using AgentInstaller.Service.utils.wmiClassOptions;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.general;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.network;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.operatingSystem;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.peripherals;
 using AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.ProcessAndStorage;
-using Microsoft.Management.Infrastructure;
 
 namespace AgentInstaller.Service.utils
 {
     internal class DeviceInfo
     {
+        private static ComputerDeviceInfo _cdInfo = null;
+
         public static void GetDeviceInfoWMI(ILogger<Worker> log)
         {
             // Tool set at the bottom is cool but it's kinda manual having to build the class each time.
             // TODO might be a good idea to figure out how to implement the builder pattern with this.
             var optionQuerier = new WMIOptionQuerier();
 
+            _cdInfo = new ComputerDeviceInfo();
+
             try
             {
 
-                GetGeneralDeviceInfo(optionQuerier);
+                //GetGeneralDeviceInfo(optionQuerier);
 
-                GetNetworkInfo(optionQuerier);
+                //GetNetworkInfo(optionQuerier);
 
-                GetOSInfo(optionQuerier);
+                //GetOSInfo(optionQuerier);
 
-                GetPeripheralInfo(optionQuerier);
+                //GetPeripheralInfo(optionQuerier);le
 
-                GetProcessAndStorageInfo(optionQuerier);
+                //GetProcessAndStorageInfo(optionQuerier);
 
                 log.Log(LogLevel.Information, "Device info query complete");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 // this will log ex.Message *and* ex.StackTrace
                 log.LogError(ex, "Error in {Method}", nameof(GetDeviceInfoWMI));
@@ -69,9 +73,22 @@ namespace AgentInstaller.Service.utils
 
         private static void GetOSInfo(WMIOptionQuerier querier)
         {
+            _cdInfo.OS = new OperatingSystemInfo();
+
             var os = querier
                 .CreateQueryOption<Win32_OperatingSystem>("Win32_OperatingSystem")
                 .CreateAndPopulate();
+                // Idea below is to be able to use reflection to create the DTO
+                // Array of objects where win32Prop targets the info on the Win32 class and dtoProp so the Dev can choose a different name but map to the value
+                // This might be better as a source genrator project instead
+                //.CreateDTOArray([
+                //  {
+                //      win32Prop: "Name"
+                //      dtoProp: "NewName"
+                //  }
+                //])
+                //.
+                // .UpdateComputerDeviceInfo("InstallDate", "LicenseType");
 
             var quickFix= querier
                 .CreateQueryOption<Win32_QuickFixEngineering>("Win32_QuickFixEngineering")
