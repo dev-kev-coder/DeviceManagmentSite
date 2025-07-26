@@ -1,0 +1,121 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.6 Chrome/138.0.7204.100 Electron/37.2.3 Safari/537.36" version="28.0.6">
+  <diagram name="Page-1" id="mqstMXGw-813j-vGLmRJ">
+    <mxGraphModel dx="2593" dy="1544" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="reuMovr6VEg_fovPMHkE-13" value="Agent functionality" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=30;labelBackgroundColor=none;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="180" y="10" width="440" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-14" value="Gather Device Information and POST to Remote Server" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=26;labelBackgroundColor=none;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="160" y="110" width="440" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-15" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="515" y="180" width="60" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-18" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="190" y="200" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-20" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="235.94" y="250" width="18.13" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-22" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="220" y="270" width="50" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-30" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;labelBackgroundColor=none;fontColor=default;strokeColor=#0B4D6A;" edge="1" parent="1" source="reuMovr6VEg_fovPMHkE-18" target="reuMovr6VEg_fovPMHkE-15">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="214.63" as="sourcePoint" />
+            <mxPoint x="400" y="214.63" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-31" value="" style="shape=message;html=1;outlineConnect=0;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="reuMovr6VEg_fovPMHkE-30">
+          <mxGeometry width="20" height="14" relative="1" as="geometry">
+            <mxPoint x="-10" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-32" value="Check server for any updates made to service agent" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=26;labelBackgroundColor=none;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="160" y="360" width="440" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-34" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="515" y="440" width="60" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-35" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="190" y="460" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-36" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="235.935" y="510" width="18.13" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-37" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="220" y="530" width="50" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-40" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#0B4D6A;entryX=0.016;entryY=0.467;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="reuMovr6VEg_fovPMHkE-34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="484.82" as="sourcePoint" />
+            <mxPoint x="460" y="484.82" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-41" value="&lt;span&gt;ping server to see&lt;/span&gt;&lt;div&gt;&lt;span&gt;if there are any updates&lt;/span&gt;&lt;/div&gt;" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;strokeColor=#BAC8D3;fontColor=#EEEEEE;fillColor=#09555B;labelBackgroundColor=none;" connectable="0" vertex="1" parent="reuMovr6VEg_fovPMHkE-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-48" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="512.5" y="570" width="60" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-49" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="187.5" y="590" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-50" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="233.435" y="640" width="18.13" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-51" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="217.5" y="660" width="50" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-57" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#0B4D6A;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="reuMovr6VEg_fovPMHkE-48" target="reuMovr6VEg_fovPMHkE-49">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="330" y="670" as="sourcePoint" />
+            <mxPoint x="380" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-58" value="respond to agents request.&lt;br&gt;&lt;div&gt;Maybe some version number&lt;/div&gt;&lt;div&gt;so the agent can compare its own&amp;nbsp;&lt;/div&gt;&lt;div&gt;version against the server&#39;s&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];strokeColor=#BAC8D3;fontColor=#EEEEEE;fillColor=#09555B;labelBackgroundColor=none;" vertex="1" connectable="0" parent="reuMovr6VEg_fovPMHkE-57">
+          <mxGeometry x="-0.0286" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-64" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0B4D6A;" edge="1" parent="1" source="reuMovr6VEg_fovPMHkE-60" target="reuMovr6VEg_fovPMHkE-63">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-60" value="If versions are the same then no update is need. Process ends" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#BAC8D3;fontColor=#EEEEEE;fillColor=#09555B;" vertex="1" parent="1">
+          <mxGeometry x="340" y="705" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-61" value="" style="shape=singleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;rounded=0;rotation=90;" vertex="1" parent="1">
+          <mxGeometry x="375" y="640" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-63" value="Update found" style="shape=singleArrow;whiteSpace=wrap;html=1;arrowWidth=0.6395061728394998;arrowSize=0.3466666666666674;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;rounded=0;rotation=90;" vertex="1" parent="1">
+          <mxGeometry x="375" y="760" width="50" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-65" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="525" y="830" width="60" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-66" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="200" y="850" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-67" value="" style="rounded=0;whiteSpace=wrap;html=1;rotation=90;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="245.93499999999995" y="900" width="18.13" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-68" value="" style="rounded=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#09555B;strokeColor=#BAC8D3;fontColor=#EEEEEE;" vertex="1" parent="1">
+          <mxGeometry x="230" y="920" width="50" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-69" value="" style="endArrow=classic;html=1;rounded=0;strokeColor=#0B4D6A;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="reuMovr6VEg_fovPMHkE-66" target="reuMovr6VEg_fovPMHkE-65">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="430" y="1020" as="sourcePoint" />
+            <mxPoint x="392.5" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="reuMovr6VEg_fovPMHkE-70" value="Agent request updated files from&lt;div&gt;server. &lt;br&gt;&lt;span style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(238, 238, 238), rgb(255, 255, 255));&quot;&gt;Provides some nice UI to display&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;update progress&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];strokeColor=#BAC8D3;fontColor=#EEEEEE;fillColor=#09555B;labelBackgroundColor=none;" vertex="1" connectable="0" parent="reuMovr6VEg_fovPMHkE-69">
+          <mxGeometry x="-0.0286" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
