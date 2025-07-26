@@ -27,11 +27,11 @@ namespace AgentInstaller.Service.utils
 
                 //GetNetworkInfo(optionQuerier);
 
-                //GetOSInfo(optionQuerier);
+                GetOSInfo(optionQuerier);
 
                 //GetPeripheralInfo(optionQuerier);le
 
-                //GetProcessAndStorageInfo(optionQuerier);
+                GetProcessAndStorageInfo(optionQuerier);
 
                 log.Log(LogLevel.Information, "Device info query complete");
             }
@@ -47,56 +47,47 @@ namespace AgentInstaller.Service.utils
 
         private static void GetGeneralDeviceInfo(WMIOptionQuerier querier)
         {
-            var bios = querier
-                .CreateQueryOption<Win32_BIOS>("Win32_BIOS")
-                .CreateAndPopulate();
+            //var bios = querier
+            //    .CreateQueryOption<Win32_BIOS>("Win32_BIOS")
+            //    .CreateAndPopulate();
 
-            var compSystemProduct = querier
-                .CreateQueryOption<Win32_ComputerSystemProduct>("Win32_ComputerSystemProduct")
-                .CreateAndPopulate();
+            //var compSystemProduct = querier
+            //    .CreateQueryOption<Win32_ComputerSystemProduct>("Win32_ComputerSystemProduct")
+            //    .CreateAndPopulate();
 
-            var computerSystem = querier
-                .CreateQueryOption<Win32_ComputerSystem>("Win32_ComputerSystem")
-                .CreateAndPopulate();
+            //var computerSystem = querier
+            //    .CreateQueryOption<Win32_ComputerSystem>("Win32_ComputerSystem")
+            //    .CreateAndPopulate();
         }
 
         private static void GetNetworkInfo(WMIOptionQuerier querier) 
         {
-            var adatper = querier
-                .CreateQueryOption<Win32_NetworkAdapter>("Win32_ComputerSystem")
-                .CreateAndPopulate();
+            //var adatper = querier
+            //    .CreateQueryOption<Win32_NetworkAdapter>("Win32_ComputerSystem")
+            //    .CreateAndPopulate();
 
-            var adpaterConfig = querier
-                .CreateQueryOption<Win32_NetworkAdapterConfiguration>("Win32_ComputerSystem")
-                .CreateAndPopulate();
+            //var adpaterConfig = querier
+            //    .CreateQueryOption<Win32_NetworkAdapterConfiguration>("Win32_ComputerSystem")
+            //    .CreateAndPopulate();
         }
 
         private static void GetOSInfo(WMIOptionQuerier querier)
         {
-            _cdInfo.OS = new OperatingSystemInfo();
 
             var os = querier
                 .CreateQueryOption<Win32_OperatingSystem>("Win32_OperatingSystem")
                 .CreateAndPopulate();
-                // Idea below is to be able to use reflection to create the DTO
-                // Array of objects where win32Prop targets the info on the Win32 class and dtoProp so the Dev can choose a different name but map to the value
-                // This might be better as a source genrator project instead
-                //.CreateDTOArray([
-                //  {
-                //      win32Prop: "Name"
-                //      dtoProp: "NewName"
-                //  }
-                //])
-                //.
-                // .UpdateComputerDeviceInfo("InstallDate", "LicenseType");
 
-            var quickFix= querier
-                .CreateQueryOption<Win32_QuickFixEngineering>("Win32_QuickFixEngineering")
-                .CreateAndPopulate();
+            _cdInfo.OS = os.ToArray();
+
+            //var quickFix= querier
+            //    .CreateQueryOption<Win32_QuickFixEngineering>("Win32_QuickFixEngineering")
+            //    .CreateAndPopulate();
         }
 
         private static void GetProcessAndStorageInfo(WMIOptionQuerier querier)
         {
+
             var drives = querier
                 .CreateQueryOption<Win32_DiskDrive>("Win32_DiskDrive")
                 .CreateAndPopulate();
@@ -108,13 +99,18 @@ namespace AgentInstaller.Service.utils
             var processors = querier
                 .CreateQueryOption<Win32_Processor>("Win32_Processor")
                 .CreateAndPopulate();
+
+            _cdInfo.DiskDrives = drives.ToArray();
+            _cdInfo.RAM = ram.ToArray();
+            _cdInfo.Processor = processors.ToArray();
+
         }
 
         private static void GetPeripheralInfo(WMIOptionQuerier querier)
         {
-            var monitors = querier
-                .CreateQueryOption<Win32_DesktopMonitor>("Win32_DesktopMonitor")
-                .CreateAndPopulate();
+            //var monitors = querier
+            //    .CreateQueryOption<Win32_DesktopMonitor>("Win32_DesktopMonitor")
+            //    .CreateAndPopulate();
 
             // Getting an Access denied error. Might need to run in admin mode?
             //var tpm = querier
@@ -124,6 +120,8 @@ namespace AgentInstaller.Service.utils
             var gpu = querier
                 .CreateQueryOption<Win32_VideoController>("Win32_VideoController")
                 .CreateAndPopulate();
+
+            _cdInfo.VideoControllers = gpu.ToArray();
         }
 
         #region Crazy Ideas to be lazier
