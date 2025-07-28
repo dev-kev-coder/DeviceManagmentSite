@@ -20,6 +20,16 @@ namespace AgentInstaller.Service.utils
 
             _cdInfo = new ComputerDeviceInfo();
 
+            /**
+             * TODO: Need to expand to get more info from fields.
+             * 
+             * 1. Current User and list of all Users
+             * 2. list of all installed applications
+             * 
+             * use the wmic_console application as a test
+             * 
+             * **/
+
             try
             {
 
@@ -29,7 +39,7 @@ namespace AgentInstaller.Service.utils
 
                 GetOSInfo(optionQuerier);
 
-                //GetPeripheralInfo(optionQuerier);le
+                GetPeripheralInfo(optionQuerier);
 
                 GetProcessAndStorageInfo(optionQuerier);
 

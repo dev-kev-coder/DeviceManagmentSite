@@ -14,6 +14,8 @@ namespace AgentInstaller.Service.utils.wmiClassOptions.definitions.specs.Process
         public string Model { get; set; }
         public string Status { get; set; }
         public ulong? Size { get; set; }
-        public ushort? Availability { get; set; }
+        public UInt16? Availability { get; set; }
+        public string Caption { get; set; }
+        public string MediaType { get; set; }
     };
 }
