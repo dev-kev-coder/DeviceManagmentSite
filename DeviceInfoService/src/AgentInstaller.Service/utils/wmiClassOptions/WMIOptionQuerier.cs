@@ -174,6 +174,16 @@ namespace AgentInstaller.Service.utils.wmiClassOptions
 
                     var cimPropValueType = cimPropValue.GetType();
 
+                    if (cimPropValue is CimInstance castedCimPropVal) 
+                    {
+                        if (castedCimPropVal.CimClass.CimSuperClassName == classTypeName && propType.Name != typeof(string).Name) 
+                        {
+                            throw new Exception($"Error in {classTypeName}: CIM prop val of {propName} is {cimPropValueType}. These get handled as strings so {classTypeName}.{propName} must be a string");
+                        }
+
+                        return castedCimPropVal.ToString();
+                    }
+
                     if (!DeviceInfoTypeCaster.AreSameOrNullableEquivalent(cimPropValueType, propType))
                     {
                         throw new Exception($"Error: Type mismatch between CIM Type and property type. {classTypeName}.{propName} expected {propType.Name} but got {cimPropValueType.Name}");

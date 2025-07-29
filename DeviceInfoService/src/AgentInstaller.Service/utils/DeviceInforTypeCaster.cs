@@ -47,7 +47,14 @@ namespace AgentInstaller.Service.utils
 
             var targetType = type ?? value.GetType();
 
-
+            if (targetType.Equals(typeof(bool[])))
+            {
+                return (bool[])value;
+            }
+            if (targetType.Equals(typeof(bool)))
+            {
+                return (bool)value;
+            }
             if (targetType.Equals(typeof(string[])))
             {
                 return (string[])value;

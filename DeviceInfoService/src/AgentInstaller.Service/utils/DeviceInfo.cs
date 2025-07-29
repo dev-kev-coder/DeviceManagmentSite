@@ -88,16 +88,35 @@ namespace AgentInstaller.Service.utils
                 .CreateQueryOption<Win32_OperatingSystem>("Win32_OperatingSystem")
                 .CreateAndPopulate();
 
-            _cdInfo.OS = os.ToArray();
+            var accounts = querier
+                .CreateQueryOption<Win32_Account>("Win32_Account")
+                .CreateAndPopulate();
+
+            var groups = querier
+                .CreateQueryOption<Win32_Group>("Win32_Group")
+                .CreateAndPopulate();
+
+            var userAccount = querier
+                .CreateQueryOption<Win32_UserAccount>("Win32_UserAccount")
+                .CreateAndPopulate();
+
+            // Currently getting users by converting CIM instances into strings.
+            // Better approach would be to have the util know how to "unwrap" nested CIM instances.
+            var groupUsers = querier
+                .CreateQueryOption<Win32_GroupUser>("Win32_GroupUser")
+                .CreateAndPopulate();
 
             //var quickFix= querier
             //    .CreateQueryOption<Win32_QuickFixEngineering>("Win32_QuickFixEngineering")
             //    .CreateAndPopulate();
+
+            _cdInfo.OS = os.ToArray(); 
         }
 
         private static void GetProcessAndStorageInfo(WMIOptionQuerier querier)
         {
 
+            // Might need to swap it out for MSFT_PhysicalDisk???
             var drives = querier
                 .CreateQueryOption<Win32_DiskDrive>("Win32_DiskDrive")
                 .CreateAndPopulate();
