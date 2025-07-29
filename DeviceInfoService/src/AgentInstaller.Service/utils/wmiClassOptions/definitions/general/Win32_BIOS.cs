@@ -1,7 +1,7 @@
 ﻿
 namespace AgentInstaller.Service.utils.wmiClassOptions.definitions.general
 {
-    class Win32_BIOS
+    public class Win32_BIOS
     {
         /**
         * Constraints: SerialNumber must be SN from Vendor.
