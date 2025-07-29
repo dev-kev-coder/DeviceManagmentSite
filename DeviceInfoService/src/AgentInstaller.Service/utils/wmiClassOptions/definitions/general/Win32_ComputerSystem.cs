@@ -8,5 +8,6 @@ namespace AgentInstaller.Service.utils.wmiClassOptions.definitions.general
         public UInt64 TotalPhysicalMemory { get; set; }
         public string Domain { get; set; }
         public string UserName { get; set; }
+        public string Name { get; set; }
     }
 }
