@@ -33,7 +33,7 @@ namespace AgentInstaller.Service.utils
             try
             {
 
-                //GetGeneralDeviceInfo(optionQuerier);
+                GetGeneralDeviceInfo(optionQuerier);
 
                 //GetNetworkInfo(optionQuerier);
 
@@ -57,17 +57,23 @@ namespace AgentInstaller.Service.utils
 
         private static void GetGeneralDeviceInfo(WMIOptionQuerier querier)
         {
-            //var bios = querier
-            //    .CreateQueryOption<Win32_BIOS>("Win32_BIOS")
-            //    .CreateAndPopulate();
+            var bios = querier
+                .CreateQueryOption<Win32_BIOS>("Win32_BIOS")
+                .CreateAndPopulate()
+                .FirstOrDefault();
 
-            //var compSystemProduct = querier
-            //    .CreateQueryOption<Win32_ComputerSystemProduct>("Win32_ComputerSystemProduct")
-            //    .CreateAndPopulate();
+            var compSystemProduct = querier
+                .CreateQueryOption<Win32_ComputerSystemProduct>("Win32_ComputerSystemProduct")
+                .CreateAndPopulate().
+                FirstOrDefault();
 
-            //var computerSystem = querier
-            //    .CreateQueryOption<Win32_ComputerSystem>("Win32_ComputerSystem")
-            //    .CreateAndPopulate();
+            var computerSystem = querier
+                .CreateQueryOption<Win32_ComputerSystem>("Win32_ComputerSystem")
+                .CreateAndPopulate()
+                .FirstOrDefault();
+
+            _cdInfo.ComputerSystemInfo = computerSystem;
+            _cdInfo.BIOS = bios;
         }
 
         private static void GetNetworkInfo(WMIOptionQuerier querier) 
@@ -86,19 +92,22 @@ namespace AgentInstaller.Service.utils
 
             var os = querier
                 .CreateQueryOption<Win32_OperatingSystem>("Win32_OperatingSystem")
-                .CreateAndPopulate();
+                .CreateAndPopulate()
+                .FirstOrDefault();
 
-            var accounts = querier
-                .CreateQueryOption<Win32_Account>("Win32_Account")
-                .CreateAndPopulate();
+            #region User Accounts query (deprecated)
+            //var accounts = querier
+            //    .CreateQueryOption<Win32_Account>("Win32_Account")
+            //    .CreateAndPopulate();
 
-            var groups = querier
-                .CreateQueryOption<Win32_Group>("Win32_Group")
-                .CreateAndPopulate();
+            //var groups = querier
+            //    .CreateQueryOption<Win32_Group>("Win32_Group")
+            //    .CreateAndPopulate();
 
-            var userAccount = querier
-                .CreateQueryOption<Win32_UserAccount>("Win32_UserAccount")
-                .CreateAndPopulate();
+            //var userAccount = querier
+            //    .CreateQueryOption<Win32_UserAccount>("Win32_UserAccount")
+            //    .CreateAndPopulate();
+            #endregion User Accounts query (deprecated)
 
             // Currently getting users by converting CIM instances into strings.
             // Better approach would be to have the util know how to "unwrap" nested CIM instances.
@@ -106,11 +115,14 @@ namespace AgentInstaller.Service.utils
                 .CreateQueryOption<Win32_GroupUser>("Win32_GroupUser")
                 .CreateAndPopulate();
 
+            var usersInfo = UsersInfoDTO.ExtractWMIUsersInfo(groupUsers);
+
             //var quickFix= querier
             //    .CreateQueryOption<Win32_QuickFixEngineering>("Win32_QuickFixEngineering")
             //    .CreateAndPopulate();
 
-            _cdInfo.OS = os.ToArray(); 
+            _cdInfo.OS = os;
+            _cdInfo.UsersInfo = usersInfo;
         }
 
         private static void GetProcessAndStorageInfo(WMIOptionQuerier querier)
@@ -132,7 +144,6 @@ namespace AgentInstaller.Service.utils
             _cdInfo.DiskDrives = drives.ToArray();
             _cdInfo.RAM = ram.ToArray();
             _cdInfo.Processor = processors.ToArray();
-
         }
 
         private static void GetPeripheralInfo(WMIOptionQuerier querier)
