@@ -8,6 +8,7 @@ namespace server
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddControllers();
 
             var app = builder.Build();
 
@@ -24,10 +25,26 @@ namespace server
 
             app.UseRouting();
 
+            //// Simple GET returning a string
+            //app.MapGet("/hello", () => "Hello World!");
+
+            //// GET with route parameter
+            //app.MapGet("/users/{id}", (int id) =>
+            //{
+            //    // Example static lookup
+            //    var users = new[]
+            //    {
+            //        new { Id = 1, Name = "Alice" },
+            //        new { Id = 2, Name = "Bob" }
+            //    };
+            //    var user = users.FirstOrDefault(u => u.Id == id);
+
+            //    return user is not null ? Results.Ok(user) : Results.NotFound();
+            //});
+
+            app.MapControllers();
             app.UseAuthorization();
-
             app.MapRazorPages();
-
             app.Run();
         }
     }
