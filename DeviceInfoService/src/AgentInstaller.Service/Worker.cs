@@ -56,16 +56,30 @@ namespace AgentInstaller.Service
         /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //_log.LogInformation("AgentInstaller.Service booted at {Time}", DateTimeOffset.Now);
+            var httpClient = new HttpClient();
 
-            while (!stoppingToken.IsCancellationRequested)
+            httpClient.BaseAddress = new Uri("https://localhost:7231/api/DeviceAgent/");
+
+            try
             {
-                // TODO: real work—ping server, collect telemetry, etc.
-                _log.LogInformation("Heartbeat {Time}", DateTimeOffset.Now);
-                //Kernel32.GetNativeSystemInfo(out var info);
-                //Console.WriteLine($"{info.dwNumberOfProcessors} logical procs, page size {info.dwPageSize} bytes, arch {info.wProcessorArchitecture}");
-                DeviceInfo.GetDeviceInfoWMI(_log);
-                await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
+                var stop = "here";
+
+                //_log.LogInformation("AgentInstaller.Service booted at {Time}", DateTimeOffset.Now);
+
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    // TODO: real work—ping server, collect telemetry, etc.
+                    _log.LogInformation("Heartbeat {Time}", DateTimeOffset.Now);
+                    //Kernel32.GetNativeSystemInfo(out var info);
+                    //Console.WriteLine($"{info.dwNumberOfProcessors} logical procs, page size {info.dwPageSize} bytes, arch {info.wProcessorArchitecture}");
+                    DeviceInfo.GetDeviceInfoWMI(_log);
+                    httpClient.GetAsync(httpClient.BaseAddress + "PickMe").Wait();
+                    await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+                }
+            }
+            catch(Exception e)
+            {
+                
             }
         }
     }
