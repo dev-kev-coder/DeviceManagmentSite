@@ -3,6 +3,7 @@ using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using AgentInstaller.Service.utils;
+using AgentInstaller.Service.utils.ProgramFilesUpdater;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -15,8 +16,13 @@ namespace AgentInstaller.Service
     public sealed class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _log;
+        private readonly IConfiguration _config;
 
-        public Worker(ILogger<Worker> log) => _log = log;
+        public Worker(ILogger<Worker> log, IConfiguration config) 
+        {
+            _log = log;
+            _config = config;
+        }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -56,16 +62,34 @@ namespace AgentInstaller.Service
         /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //_log.LogInformation("AgentInstaller.Service booted at {Time}", DateTimeOffset.Now);
-
-            while (!stoppingToken.IsCancellationRequested)
+            try
             {
-                // TODO: real work—ping server, collect telemetry, etc.
-                _log.LogInformation("Heartbeat {Time}", DateTimeOffset.Now);
-                //Kernel32.GetNativeSystemInfo(out var info);
-                //Console.WriteLine($"{info.dwNumberOfProcessors} logical procs, page size {info.dwPageSize} bytes, arch {info.wProcessorArchitecture}");
-                DeviceInfo.GetDeviceInfoWMI(_log);
-                await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
+
+                _log.LogInformation("AgentInstaller.Service booted at {Time}", DateTimeOffset.Now);
+
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    _log.LogInformation("Heartbeat {Time}", DateTimeOffset.Now);
+
+
+                    // 1. Util to gather device information.
+                    //Kernel32.GetNativeSystemInfo(out var info); // Direct DLL implementation
+                    DeviceInfo.GetDeviceInfoWMI(_log);
+
+                    // 2. Query Server for update files (basic request)
+                    //var httpClient = new HttpClient();
+                    //httpClient.BaseAddress = new Uri("https://localhost:7231/api/DeviceAgent/");
+                    //httpClient.GetAsync(httpClient.BaseAddress + "PickMe").Wait();
+
+                    // 3. General file and folder interactions.
+                    ProgramFilesUpdater.Main(_config);
+
+                    await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+                }
+            }
+            catch(Exception e)
+            {
+                
             }
         }
     }

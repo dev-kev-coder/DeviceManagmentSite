@@ -8,8 +8,9 @@ namespace server.Controllers.apis
     [ApiController]
     public class DeviceAgentController : ControllerBase
     {
-        [HttpGet("TestEndpoint/{id}")]
-        public ActionResult<string> TestEndpoint(int id)
+        //[HttpGet("TestEndpoint/{id}")]
+        [HttpGet("PickMe")]
+        public ActionResult<string> PickMe()
         {
             return Ok("Test");
         }

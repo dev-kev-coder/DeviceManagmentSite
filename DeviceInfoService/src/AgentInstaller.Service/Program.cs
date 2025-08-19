@@ -37,7 +37,7 @@ namespace AgentInstaller.Service
             // Builder to use to configure Host
             var appBuilder = Host
                 .CreateEmptyApplicationBuilder(appBuilderSettings);
-
+           
             // Not really sure what this does yet
             appBuilder.Configuration
                 .AddJsonFile($"appsettings.{appBuilderSettings.EnvironmentName}.json", optional: true, reloadOnChange: true)
