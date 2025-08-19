@@ -32,7 +32,7 @@ namespace AgentInstaller.Service
             appBuilderSettings.EnvironmentName = Environments.Development; 
 
             // App name will show up on logger. Helpful for libraries to locate resources
-            appBuilderSettings.ApplicationName = "DeviceInfoAgent";
+            appBuilderSettings.ApplicationName = "DeviceInfoService";
 
             // Builder to use to configure Host
             var appBuilder = Host
