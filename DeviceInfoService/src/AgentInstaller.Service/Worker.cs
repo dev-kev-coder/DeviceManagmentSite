@@ -74,7 +74,7 @@ namespace AgentInstaller.Service
 
                     // 1. Util to gather device information.
                     //Kernel32.GetNativeSystemInfo(out var info); // Direct DLL implementation
-                    DeviceInfo.GetDeviceInfoWMI(_log);
+                    //DeviceInfo.GetDeviceInfoWMI(_log);
 
                     // 2. Query Server for update files (basic request)
                     //var httpClient = new HttpClient();
@@ -82,7 +82,7 @@ namespace AgentInstaller.Service
                     //httpClient.GetAsync(httpClient.BaseAddress + "PickMe").Wait();
 
                     // 3. General file and folder interactions.
-                    ProgramFilesUpdater.Main(_config);
+                    //ProgramFilesUpdater.Main(_config);
 
                     await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
                 }
