@@ -1,0 +1,10 @@
+{
+  "version": "2.3.1",
+  "build": "20250902",
+  "hashes": {
+    "App.exe": "1a2b3c4d...",
+    "Lib.dll": "5f6e7d8c..."
+  },
+  "changelog": "Fixed updater bug, added telemetry opt-in",
+  "required": false
+}

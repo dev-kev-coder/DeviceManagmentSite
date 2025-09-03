@@ -84,6 +84,37 @@ namespace AgentInstaller.Service
                     // 3. General file and folder interactions.
                     //ProgramFilesUpdater.Main(_config);
 
+
+                    // New game plan
+                    /**
+                     * 1. ping server for DeviceInfo.exe program file updates
+                     *      - if update then pop up a desktop window for user to accept update (basically hit ok or cancel)
+                     *          * segway into Desktop UI implementation for updater/installer (if even possible to combine both)
+                     * 2. execute DeviceInfo.exe process to gather specs from machine
+                     *      - Service Worker process will need to be able to handle error gracefully from DeviceInfo.exe
+                     *      - ideas for data gathering:
+                     *          * DeviceInfo.exe gathers data, makes payload in processes' memory, writes to JSON file and service worker process reads JSON file and POSTs it to server.
+                     *          * DeviceInfo.exe gahters data, makes payload in processes' memory, and POSTs it to server. (preferred approach; keeps logic consolidated)
+                     *          
+                     *  Next steps: 
+                     
+                     *      - Create AgentInstaller.DeviceInfo project that will be responsible for the DeviceInfo.exe
+                     *      - Have AgentInstaller.Service envoke DeviceInfo.exe to send payload to server
+                     *          * AgentInstaller.Service should handle failures in DeviceInfo.exe and notify server of failure
+                     *      - AgentInstaller.Service goals
+                     *          * be able to run DeviceInfo.exe
+                     *          * be able to update DeviceInfo.exe from server.
+                     *              - Currently publishing under .src/BuildTestingGrounds as a series of dll files.
+                     *                Might be good for update process if link AgentInstaller.Core as a dll. If we only
+                     *                update the AgentInstaller.Core files then AgentInstaller.Service only has to download 1 file
+                     *              - 1st idea for checking for updates.
+                     *                  - AgentInstaller.Service checks version file on client machine then pings 
+                     *                    server for shell structure of AgentInstaller.DeviceInfo files on server 
+                     *                    AgentInstaller.Service then checks the shell payload from server and does a meta data check (probably file date modified)
+                     *                    against the files on client machine comparing differences. (needs to support additions/removals/updates...basically server knows all and files on client should accept changes from server)
+                     *                  - planning on using a "version.json" to handle the updates
+                     *                    
+                     * **/
                     await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
                 }
             }
