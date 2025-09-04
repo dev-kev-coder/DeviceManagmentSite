@@ -18,6 +18,10 @@
       },
       "runtimepack.Microsoft.NETCore.App.Runtime.win-x86/8.0.19": {
         "runtime": {
+          "System.Collections.Concurrent.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1925.36514"
+          },
           "System.Collections.Immutable.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1925.36514"
@@ -38,11 +42,19 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1925.36514"
           },
+          "System.Linq.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1925.36514"
+          },
           "System.Private.CoreLib.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1925.36514"
           },
           "System.Reflection.Metadata.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1925.36514"
+          },
+          "System.Security.Cryptography.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1925.36514"
           }
